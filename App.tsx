@@ -107,7 +107,6 @@ function App() {
   };
 
   return (
-    // MODIFICA 1: h-[100dvh] forza l'altezza reale ignorando le barre del browser
     <div className="flex flex-col h-[100dvh] bg-slate-950 text-slate-200 font-sans relative overflow-hidden">
       
       {/* Header */}
@@ -143,14 +142,11 @@ function App() {
       <ProgressIndicator currentPhase={currentPhase} />
 
       {/* Main Chat Area */}
-      {/* MODIFICA 2: pb-44 per creare spazio vuoto in fondo così l'ultimo messaggio non finisce sotto il footer fisso */}
       <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 relative scroll-smooth pb-44">
         {messages.map((msg) => (
           <ChatBubble key={msg.id} message={msg} />
         ))}
-        
         {isLoading && <TypingIndicator />}
-        
         {error && (
           <div className="flex justify-center my-4">
             <div className="bg-red-900/30 border border-red-800 text-red-200 px-4 py-2 rounded-lg text-sm flex items-center gap-2">
@@ -159,36 +155,35 @@ function App() {
             </div>
           </div>
         )}
-        
         <div ref={messagesEndRef} />
       </main>
 
       {/* Input Area */}
-      {/* MODIFICA 3: fixed bottom-0 blocca la barra in basso sopra a tutto */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 p-4 pb-8 md:pb-6 safe-area-padding z-50 shadow-2xl">
-        <div className="max-w-4xl mx-auto flex gap-3">
+      {/* MODIFICHE QUI: px-3 per più spazio, min-w-0 all'input per evitare overflow */}
+      <footer className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 px-3 py-4 z-50 pb-8 md:pb-6 safe-area-padding shadow-2xl w-full">
+        <div className="max-w-4xl mx-auto flex gap-2 w-full">
           <button
             onClick={() => setIsSignalModalOpen(true)}
             disabled={isLoading}
-            className="bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl px-4 flex items-center justify-center transition-all shadow-lg shadow-amber-900/20 active:scale-95"
+            className="flex-shrink-0 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl w-10 h-10 md:w-auto md:px-4 flex items-center justify-center transition-all shadow-lg shadow-amber-900/20 active:scale-95"
             title="Simula Segnale Bot"
           >
             <Zap size={20} />
           </button>
 
-          <form onSubmit={(e) => handleSendMessage(e)} className="flex-1 flex gap-3">
+          <form onSubmit={(e) => handleSendMessage(e)} className="flex-1 flex gap-2 min-w-0">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder="Scrivi la tua risposta..."
-              className="flex-1 bg-slate-950 border border-slate-700 text-white rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all placeholder-slate-500"
+              placeholder="Scrivi..."
+              className="flex-1 min-w-0 bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all placeholder-slate-500 text-sm md:text-base"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={isLoading || !inputText.trim()}
-              className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl px-6 flex items-center justify-center transition-all shadow-lg shadow-emerald-900/20 active:scale-95"
+              className="flex-shrink-0 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl px-4 md:px-6 flex items-center justify-center transition-all shadow-lg shadow-emerald-900/20 active:scale-95"
             >
               <Send size={20} />
             </button>
