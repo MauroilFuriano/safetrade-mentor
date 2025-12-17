@@ -1,22 +1,27 @@
 import { Message, Role } from "../types";
 import { SYSTEM_INSTRUCTION } from "../constants";
 
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+// ⚠️ CONFIGURAZIONE IDENTICA AL BOT PYTHON
+// Usiamo esattamente il nome del modello che hai nel bot
+const MODEL_NAME = "gemini-2.5-flash-lite"; 
+
+// Costruiamo l'URL esattamente come fa lo script Python
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent`;
 
 export const sendMessageToGemini = async (
   userMessage: string,
   history: Message[]
 ): Promise<string> => {
   try {
-    // 1. CONTROLLO CHIAVE
+    // 1. Prendi la chiave (senza librerie)
     // @ts-ignore
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
     if (!apiKey) {
-      return "⚠️ ERRORE CRITICO: La chiave API è VUOTA. Vercel non la sta leggendo. Prova a fare 'Redeploy' su Vercel.";
+      return "❌ ERRORE: Chiave API mancante. Controlla Vercel.";
     }
 
-    // 2. PREPARAZIONE DATI
+    // 2. Prepara i dati (Formato Google Raw)
     const contents = history.map(msg => ({
       role: msg.role === Role.USER ? "user" : "model",
       parts: [{ text: msg.content }]
@@ -27,38 +32,42 @@ export const sendMessageToGemini = async (
       parts: [{ text: userMessage }]
     });
 
-    // 3. CHIAMATA DIRETTA A GOOGLE
+    // 3. FAI LA CHIAMATA (Fetch diretto come Python)
     const response = await fetch(`${API_URL}?key=${apiKey}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         contents: contents,
-        systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        generationConfig: { temperature: 0.7 }
+        systemInstruction: {
+          parts: [{ text: SYSTEM_INSTRUCTION }]
+        },
+        generationConfig: {
+          temperature: 0.7
+        }
       })
     });
 
-    // 4. GESTIONE ERRORI SPECIFICI
+    // 4. CONTROLLA ERRORI
     if (!response.ok) {
       const errorData = await response.json();
       console.error("ERRORE GOOGLE:", errorData);
       
-      const status = response.status;
-      const message = errorData.error?.message || "Errore sconosciuto";
-
-      if (status === 400) return `❌ Errore 400: Richiesta non valida. (${message})`;
-      if (status === 401) return `❌ Errore 401: Chiave API non valida o scaduta.`;
-      if (status === 403) return `❌ Errore 403: Accesso negato (Forse il modello non è attivo in Europa o la chiave è limitata).`;
-      if (status === 404) return `❌ Errore 404: Modello non trovato o URL sbagliato.`;
+      // Se qui da 404, vuol dire che il nome "gemini-2.5-flash-lite" è sbagliato o non attivo sulla chiave
+      if (response.status === 404) {
+        return `❌ Errore Modello (404): Il modello '${MODEL_NAME}' non è stato trovato. Sei sicuro che il bot usi esattamente questo nome?`;
+      }
       
-      return `❌ Errore generico (${status}): ${message}`;
+      return `❌ Errore Google (${response.status}): ${errorData.error?.message || response.statusText}`;
     }
 
     const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ Risposta vuota da Gemini.";
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ Risposta vuota.";
 
   } catch (error) {
-    return `❌ ERRORE DI RETE: ${(error as Error).message}. Controlla la tua connessione internet.`;
+    console.error("Errore Fetch:", error);
+    return "❌ Errore di connessione internet.";
   }
 };
 
