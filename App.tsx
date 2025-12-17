@@ -45,7 +45,6 @@ function App() {
   };
 
   // --- 3. LOGICA BENVENUTO (Ottimizzata per Telegram) ---
-  // Invece di chiamare l'AI (lento), usiamo un messaggio locale immediato col nome utente.
   useEffect(() => {
     if (!hasInitialized.current) {
       hasInitialized.current = true;
@@ -110,7 +109,6 @@ function App() {
 
   const handleReset = () => {
     if (window.confirm("Vuoi ricominciare la lezione da capo?")) {
-      // Ricarica la pagina per pulire completamente lo stato e la memoria
       window.location.reload();
     }
   };
@@ -142,7 +140,7 @@ function App() {
               <RefreshCw size={20} />
             </button>
             
-            {/* 4. TASTO CHIUDI (Chiama Telegram) */}
+            {/* TASTO CHIUDI */}
             <button 
               onClick={closeApp}
               className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-full transition-colors"
@@ -153,7 +151,7 @@ function App() {
         </div>
       </header>
 
-      {/* Progress Bar - Sticky under header */}
+      {/* Progress Bar */}
       <ProgressIndicator currentPhase={currentPhase} />
 
       {/* Main Chat Area */}
@@ -176,8 +174,8 @@ function App() {
         <div ref={messagesEndRef} />
       </main>
 
-      {/* Input Area */}
-      <footer className="flex-none bg-slate-900 border-t border-slate-800 p-4 pb-6 md:pb-6 safe-area-bottom">
+      {/* Input Area - MODIFICATA CON PIU' SPAZIO SOTTO (pb-12) */}
+      <footer className="flex-none bg-slate-900 border-t border-slate-800 p-4 pb-12 md:pb-12 safe-area-bottom">
         <div className="max-w-4xl mx-auto flex gap-3">
           <button
             onClick={() => setIsSignalModalOpen(true)}
