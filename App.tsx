@@ -7,7 +7,6 @@ import { ProgressIndicator } from './components/ProgressIndicator';
 import { Message, Role } from './types';
 import { sendMessageToGemini, resetChatSession } from './services/geminiService';
 import { APP_NAME } from './constants';
-// 1. IMPORTIAMO I SERVIZI TELEGRAM
 import { initTelegram, getUserName, closeApp } from './services/telegramService';
 
 function App() {
@@ -29,7 +28,6 @@ function App() {
     scrollToBottom();
   }, [messages, isLoading]);
 
-  // --- 2. INIZIALIZZAZIONE TELEGRAM ---
   useEffect(() => {
     initTelegram();
   }, []);
@@ -44,18 +42,11 @@ function App() {
     }
   };
 
-  // --- 3. LOGICA BENVENUTO (Ottimizzata per Telegram) ---
   useEffect(() => {
     if (!hasInitialized.current) {
       hasInitialized.current = true;
-      
-      // Reset della sessione AI precedente
       resetChatSession();
-      
-      // Recupera il nome reale da Telegram (o fallback "Trader")
       const userName = getUserName();
-      
-      // Simuliamo un caricamento breve per naturalezza
       setTimeout(() => {
         const welcomeMsg: Message = {
           id: 'welcome',
@@ -70,7 +61,6 @@ function App() {
 
   const handleSendMessage = async (e?: React.FormEvent, overrideText?: string) => {
     if (e) e.preventDefault();
-    
     const textToSend = overrideText || inputText.trim();
     if (!textToSend || isLoading) return;
 
@@ -90,14 +80,12 @@ function App() {
     try {
       const aiResponseText = await sendMessageToGemini(textToSend, messages);
       updatePhaseFromResponse(aiResponseText);
-      
       const newAiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: Role.MODEL,
         content: aiResponseText,
         timestamp: new Date(),
       };
-
       setMessages((prev) => [...prev, newAiMessage]);
     } catch (err) {
       console.error(err);
@@ -119,9 +107,11 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-slate-950 text-slate-200 font-sans">
+    // MODIFICA 1: h-[100dvh] forza l'altezza reale ignorando le barre del browser
+    <div className="flex flex-col h-[100dvh] bg-slate-950 text-slate-200 font-sans relative overflow-hidden">
+      
       {/* Header */}
-      <header className="flex-none bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between shadow-lg z-10">
+      <header className="flex-none bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between shadow-lg z-20">
         <div className="flex items-center gap-3">
           <div className="bg-emerald-600 p-2 rounded-lg">
             <ShieldCheck className="text-white" size={24} />
@@ -139,8 +129,6 @@ function App() {
             >
               <RefreshCw size={20} />
             </button>
-            
-            {/* TASTO CHIUDI */}
             <button 
               onClick={closeApp}
               className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-full transition-colors"
@@ -155,7 +143,8 @@ function App() {
       <ProgressIndicator currentPhase={currentPhase} />
 
       {/* Main Chat Area */}
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 relative scroll-smooth">
+      {/* MODIFICA 2: pb-44 per creare spazio vuoto in fondo così l'ultimo messaggio non finisce sotto il footer fisso */}
+      <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 relative scroll-smooth pb-44">
         {messages.map((msg) => (
           <ChatBubble key={msg.id} message={msg} />
         ))}
@@ -174,8 +163,9 @@ function App() {
         <div ref={messagesEndRef} />
       </main>
 
-      {/* Input Area - MODIFICATA CON PIU' SPAZIO SOTTO (pb-12) */}
-      <footer className="flex-none bg-slate-900 border-t border-slate-800 p-4 pb-12 md:pb-12 safe-area-bottom">
+      {/* Input Area */}
+      {/* MODIFICA 3: fixed bottom-0 blocca la barra in basso sopra a tutto */}
+      <footer className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 p-4 pb-8 md:pb-6 safe-area-padding z-50 shadow-2xl">
         <div className="max-w-4xl mx-auto flex gap-3">
           <button
             onClick={() => setIsSignalModalOpen(true)}
