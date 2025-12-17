@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>SafeTrade Mentor</title>
+    
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom scrollbar for dark theme aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f172a; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569; 
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in-up {
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      .animate-float {
+        animation: float 4s ease-in-out infinite;
+      }
+
+      /* Chat specific animations */
+      @keyframes messageSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(15px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .animate-message-slide-in {
+        animation: messageSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes avatarPop {
+        0% { transform: scale(0) rotate(-10deg); }
+        70% { transform: scale(1.1) rotate(5deg); }
+        100% { transform: scale(1) rotate(0deg); }
+      }
+      .animate-avatar-pop {
+        animation: avatarPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
+      /* Badge Appearance Animation */
+      @keyframes badgeAppear {
+        0% { 
+          opacity: 0; 
+          transform: translateY(10px) scale(0.9); 
+        }
+        60% { 
+          transform: translateY(-3px) scale(1.05); 
+        }
+        100% { 
+          opacity: 1; 
+          transform: translateY(0) scale(1); 
+        }
+      }
+      .animate-badge-appear {
+        animation: badgeAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      }
+
+      /* Text Shimmer Animation */
+      @keyframes textShimmer {
+        0% { background-position: 200% center; }
+        100% { background-position: -200% center; }
+      }
+      .animate-text-shimmer {
+        background: linear-gradient(
+          to right, 
+          #ffffff 20%, 
+          #34d399 50%, 
+          #ffffff 80%
+        );
+        background-size: 200% auto;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: textShimmer 3s linear infinite;
+      }
+    </style>
+    
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
+        "lucide-react": "https://esm.sh/lucide-react@^0.561.0"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="/index.css">
+  </head>
+  <body class="bg-slate-950 text-slate-200 antialiased overflow-hidden">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
