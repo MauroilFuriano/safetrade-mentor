@@ -50,9 +50,9 @@ function App() {
     
     // Messaggio di Benvenuto diverso in base alla scelta
     if (selectedMode === 'TRADING') {
-      initialMessageContent = `Ciao ${userName}! 👋 Benvenuto nella **SafeTrade Academy**.\n\nOggi sarò il tuo mentore personale. Ti guiderò passo dopo passo nell'apertura di un trade **Risk Free** su OKX.\n\nNiente rischi reali, solo pratica. Sei pronto a diventare un cecchino dei mercati? 🎯\n\nScrivi "Sono pronto" per iniziare!`;
+      initialMessageContent = `Ciao ${userName}! 👋 Benvenuto nella **SafeTrade Academy**.\n\nOggi sarò il tuo mentore personale. Ti guiderò passo dopo passo nell'apertura di un trade **Risk Free** su Bitget.\n\nNiente rischi reali, solo pratica. Sei pronto a diventare un cecchino dei mercati? 🎯\n\nScrivi "Sono pronto" per iniziare!`;
     } else {
-      initialMessageContent = `Ciao ${userName}! 👋 Benvenuto nel supporto configurazione Bot.\n\nTi guiderò passo dopo passo nella creazione delle **Chiavi API su OKX** in totale sicurezza 🛡️.\n\nAlla fine avrai i dati necessari da inserire nel sito per attivare il tuo Bot Spot.\n\nSei loggato su OKX? Scrivi "Pronto" per iniziare.`;
+      initialMessageContent = `Ciao ${userName}! 👋 Benvenuto nel supporto configurazione Bot.\n\nTi guiderò passo dopo passo nella creazione delle **Chiavi API su Bitget** in totale sicurezza 🛡️.\n\nAlla fine avrai i dati necessari da inserire nel sito per attivare il tuo Bot Spot.\n\nSei loggato su Bitget? Scrivi "Pronto" per iniziare.`;
     }
 
     const welcomeMsg: Message = {
@@ -126,7 +126,7 @@ function App() {
   };
 
   const handleSignalSubmit = (data: { pair: string; side: string; entry: string; sl: string; tp: string }) => {
-    const signalMessage = `🚨 **SIMULAZIONE SEGNALE RICEVUTO** 🚨\n\n🔹 **Coppia:** ${data.pair}\n🔹 **Lato:** ${data.side === 'LONG' ? 'LONG 🟢' : 'SHORT 🔴'}\n🔹 **Entry:** ${data.entry}\n🔹 **Stop Loss:** ${data.sl}\n🔹 **Take Profit:** ${data.tp}\n\nHo ricevuto questo segnale dal bot. Guidami passo passo nell'inserimento dell'ordine su OKX.`;
+    const signalMessage = `🚨 **SIMULAZIONE SEGNALE RICEVUTO** 🚨\n\n🔹 **Coppia:** ${data.pair}\n🔹 **Lato:** ${data.side === 'LONG' ? 'LONG 🟢' : 'SHORT 🔴'}\n🔹 **Entry:** ${data.entry}\n🔹 **Stop Loss:** ${data.sl}\n🔹 **Take Profit:** ${data.tp}\n\nHo ricevuto questo segnale dal bot. Guidami passo passo nell'inserimento dell'ordine su Bitget.`;
     handleSendMessage(undefined, signalMessage);
   };
 
@@ -153,7 +153,7 @@ function App() {
                <button 
                  onClick={() => setIsVideoModalOpen(true)}
                  className="p-2 text-slate-400 hover:text-amber-400 hover:bg-slate-800 rounded-full transition-colors"
-                 title="Video Tutorial OKX"
+                 title="Video Tutorial Bitget"
                >
                  <PlayCircle size={24} />
                </button>
@@ -200,7 +200,7 @@ function App() {
                         </div>
                         <h3 className="text-xl font-bold text-white mb-2">Impara a Tradare</h3>
                         <p className="text-slate-400 text-sm">
-                            Simulazione guidata per aprire trade manuali su OKX Futures senza rischi.
+                            Simulazione guidata per aprire trade manuali su Bitget Futures senza rischi.
                         </p>
                     </button>
 
@@ -214,7 +214,7 @@ function App() {
                         </div>
                         <h3 className="text-xl font-bold text-white mb-2">Configura API Bot</h3>
                         <p className="text-slate-400 text-sm">
-                            Guida sicura passo-passo per creare le chiavi API su OKX e attivare il Bot Spot.
+                            Guida sicura passo-passo per creare le chiavi API su Bitget e attivare il Bot Spot.
                         </p>
                     </button>
                 </div>

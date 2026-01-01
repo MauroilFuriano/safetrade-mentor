@@ -15,7 +15,7 @@ const TUTORIALS: Tutorial[] = [
     id: 1,
     title: "Panoramica Interfaccia Futures",
     duration: "2:15",
-    description: "Impara a navigare nella dashboard di OKX. Scopri dove trovare il grafico, il saldo del portafoglio 'Trading' e il pannello di controllo ordini.",
+    description: "Impara a navigare nella dashboard di Bitget. Scopri dove trovare il grafico, il saldo del conto 'Futures' e il pannello di controllo ordini.",
     icon: <Layout size={24} />,
     color: "bg-blue-500"
   },
@@ -23,7 +23,7 @@ const TUTORIALS: Tutorial[] = [
     id: 2,
     title: "Impostare Leva e Margine",
     duration: "1:45",
-    description: "Fondamentale: Leva alta = Liquidazione rapida. Impara a impostare 'Isolato' (Isolated) e Leva max 5x per evitare che una piccola oscillazione bruci il capitale.",
+    description: "Fondamentale: Leva alta = Liquidazione rapida. Impara a impostare 'Isolated' (Isolato) e Leva max 5x per evitare che una piccola oscillazione bruci il capitale.",
     icon: <Settings size={24} />,
     color: "bg-purple-500"
   },
@@ -31,7 +31,7 @@ const TUTORIALS: Tutorial[] = [
     id: 3,
     title: "Lettura dell'Order Book",
     duration: "3:00",
-    description: "Capire la liquidità: come leggere gli ordini di acquisto (verdi) e vendita (rossi) su OKX per decidere il miglior prezzo di entrata.",
+    description: "Capire la liquidità: come leggere gli ordini di acquisto (verdi) e vendita (rossi) su Bitget per decidere il miglior prezzo di entrata.",
     icon: <List size={24} />,
     color: "bg-amber-500"
   },
@@ -71,7 +71,7 @@ export const VideoTutorialsModal: React.FC<VideoTutorialsModalProps> = ({ isOpen
                 </button>
              )}
              <h3 className="text-white font-bold text-lg flex items-center gap-2">
-               {activeVideo ? activeVideo.title : 'Tutorial Piattaforma OKX'}
+               {activeVideo ? activeVideo.title : 'Tutorial Piattaforma Bitget'}
              </h3>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
