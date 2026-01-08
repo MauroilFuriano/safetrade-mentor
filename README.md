@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="100%" alt="SafeTrade Mentor Banner" src="https://github.com/user-attachments/assets/placeholder-image" />
+  <img width="100%" alt="SafeTrade Mentor Banner" src="https://github.com/MauroilFuriano/safetrade-mentor/blob/main/banner.png?raw=true" />
 
   # 🛡️ SafeTrade Mentor AI | Telegram Mini App
   
